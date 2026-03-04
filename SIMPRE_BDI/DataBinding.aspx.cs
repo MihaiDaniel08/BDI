@@ -41,5 +41,23 @@ namespace SIMPRE_BDI
         {
             GridView1.SelectedIndex = -1;
         }
+
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if(e.CommandName == "Insert" && Page.IsValid) {
+                ReviewsSqlDataSource.Insert();
+            }
+        }
+
+        protected void ReviewsSqlDataSource_Inserting(object sender, SqlDataSourceCommandEventArgs e)
+        {
+            DropDownList ddlMovies = (DropDownList)GridView1.FooterRow.FindControl("ddlMovies");
+            TextBox tbAuthor = (TextBox)GridView1.FooterRow.FindControl("tbAuthor");
+            TextBox tbReview = (TextBox)GridView1.FooterRow.FindControl("tbReview");
+
+            e.Command.Parameters["@idMovie"].Value = ddlMovies.SelectedItem;
+            e.Command.Parameters["@author"].Value = tbAuthor.Text;
+            e.Command.Parameters["@review"].Value = tbReview.Text;
+        }
     }
 }

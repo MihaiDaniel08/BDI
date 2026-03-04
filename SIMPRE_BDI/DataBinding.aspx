@@ -17,14 +17,55 @@
                     <asp:SessionParameter Name="idMovie" SessionField="movieId" Type="Int32" />
                 </SelectParameters>
             </asp:SqlDataSource>
-            <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="idReview" DataSourceID="ReviewsSqlDataSource" ForeColor="#333333" GridLines="None" Height="207px" OnDataBound="GridView1_DataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" OnSelectedIndexChanging="GridView1_SelectedIndexChanging" PageSize="3" Width="409px">
+            <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="idReview" DataSourceID="ReviewsSqlDataSource" ForeColor="#333333" GridLines="None" Height="207px" OnDataBound="GridView1_DataBound" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" OnSelectedIndexChanging="GridView1_SelectedIndexChanging" PageSize="3" ShowFooter="True" Width="409px">
                 <AlternatingRowStyle BackColor="White" />
                 <Columns>
                     <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ShowSelectButton="True" />
-                    <asp:BoundField DataField="idReview" HeaderText="idReview" InsertVisible="False" ReadOnly="True" SortExpression="idReview" />
-                    <asp:BoundField DataField="idMovie" HeaderText="idMovie" SortExpression="idMovie" />
-                    <asp:BoundField DataField="author" HeaderText="author" SortExpression="author" />
-                    <asp:BoundField DataField="evaluation" HeaderText="evaluation" SortExpression="evaluation" />
+                    <asp:TemplateField HeaderText="idReview" InsertVisible="False" SortExpression="idReview">
+                        <EditItemTemplate>
+                            <asp:Label ID="Label1" runat="server" Text='<%# Eval("idReview") %>'></asp:Label>
+                        </EditItemTemplate>
+                        <FooterTemplate>
+                            <asp:Button ID="Button1" runat="server" Text="Add" />
+                        </FooterTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label1" runat="server" Text='<%# Bind("idReview") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="idMovie" SortExpression="idMovie">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("idMovie") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <FooterTemplate>
+                            <asp:DropDownList ID="DropDownList2" runat="server" DataSourceID="SqlDatasourceMovies" DataTextField="title" DataValueField="idMovie">
+                            </asp:DropDownList>
+                        </FooterTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("idMovie") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="author" SortExpression="author">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("author") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <FooterTemplate>
+                            <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
+                        </FooterTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("author") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="evaluation" SortExpression="evaluation">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("evaluation") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <FooterTemplate>
+                            <asp:TextBox ID="TextBox5" runat="server"></asp:TextBox>
+                        </FooterTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label4" runat="server" Text='<%# Bind("evaluation") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                 </Columns>
                 <EditRowStyle BackColor="#2461BF" />
                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
@@ -37,9 +78,9 @@
                 <SortedDescendingCellStyle BackColor="#E9EBEF" />
                 <SortedDescendingHeaderStyle BackColor="#4870BE" />
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlDatasourceMovies" runat="server" ConnectionString="<%$ ConnectionStrings:MoviesConnectionString %>" ProviderName="<%$ ConnectionStrings:MoviesConnectionString.ProviderName %>" SelectCommand="SELECT [idMovie], [title] FROM [Movie]"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDatasourceMovies" runat="server" ConnectionString="<%$ ConnectionStrings:MoviesConnectionString %>" ProviderName="<%$ ConnectionStrings:MoviesConnectionString.ProviderName %>" SelectCommand="SELECT [idMovie], [title] FROM [Movie]" OnSelecting="SqlDatasourceMovies_Selecting"></asp:SqlDataSource>
             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-            <asp:SqlDataSource ID="ReviewsSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:MoviesConnectionString %>" DeleteCommand="DELETE FROM [Review] WHERE [idReview] = @idReview" InsertCommand="INSERT INTO [Review] ([idMovie], [author], [evaluation]) VALUES (@idMovie, @author, @evaluation)" SelectCommand="SELECT * FROM [Review] WHERE ([idMovie] = @idMovie)" UpdateCommand="UPDATE [Review] SET [idMovie] = @idMovie, [author] = @author, [evaluation] = @evaluation WHERE [idReview] = @idReview">
+            <asp:SqlDataSource ID="ReviewsSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:MoviesConnectionString %>" DeleteCommand="DELETE FROM [Review] WHERE [idReview] = @idReview" InsertCommand="INSERT INTO [Review] ([idMovie], [author], [evaluation]) VALUES (@idMovie, @author, @evaluation)" OnInserting="ReviewsSqlDataSource_Inserting" SelectCommand="SELECT * FROM [Review] WHERE ([idMovie] = @idMovie)" UpdateCommand="UPDATE [Review] SET [idMovie] = @idMovie, [author] = @author, [evaluation] = @evaluation WHERE [idReview] = @idReview">
                 <DeleteParameters>
                     <asp:Parameter Name="idReview" Type="Int32" />
                 </DeleteParameters>
