@@ -36,5 +36,10 @@ namespace SIMPRE_BDI
             }
 
         }
+
+        protected void GridView1_DataBound(object sender, EventArgs e)
+        {
+            GridView1.SelectedIndex = -1;
+        }
     }
 }
