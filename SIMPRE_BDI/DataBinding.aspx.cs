@@ -17,20 +17,20 @@ namespace SIMPRE_BDI
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             GridViewRow row = GridView1.SelectedRow;
-            String author = row.Cells[3].Text;
-            String review = row.Cells[4].Text;
-            var movieId = row.Cells[2].Text;
-            Label1.Text = "Review author " + author + ", value: " + review;
-            Session["movieId"] = movieId;
+            Label author = (Label)row.Cells[3].Controls[1];
+            Label review = (Label)row.Cells[4].Controls[1];
+            Label movieId = (Label)row.Cells[2].Controls[1];
+            Label1.Text = "Review author " + author.Text + ", value: " + review.Text;
+            Session["movieId"] = movieId.Text;
 
         }
 
         protected void GridView1_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
         {
             GridViewRow row = GridView1.Rows[e.NewSelectedIndex];
-            String label = row.Cells[4].Text;
+            Label label = (Label)row.Cells[4].Controls[1];
 
-            if (float.Parse(label) < 9.0){
+            if (float.Parse(label.Text) < 9.0){
                 e.Cancel = true;
                 Label1.Text = "You can't select a review lower than 9.0!";
             }
@@ -44,7 +44,7 @@ namespace SIMPRE_BDI
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if(e.CommandName == "Insert" && Page.IsValid) {
+            if(e.CommandName == "Add" && Page.IsValid) {
                 ReviewsSqlDataSource.Insert();
             }
         }
@@ -55,9 +55,11 @@ namespace SIMPRE_BDI
             TextBox tbAuthor = (TextBox)GridView1.FooterRow.FindControl("tbAuthor");
             TextBox tbReview = (TextBox)GridView1.FooterRow.FindControl("tbReview");
 
-            e.Command.Parameters["@idMovie"].Value = ddlMovies.SelectedItem;
+            e.Command.Parameters["@idMovie"].Value = ddlMovies.SelectedItem.Value;
             e.Command.Parameters["@author"].Value = tbAuthor.Text;
-            e.Command.Parameters["@review"].Value = tbReview.Text;
+            e.Command.Parameters["@evaluation"].Value = tbReview.Text;
+
+
         }
     }
 }

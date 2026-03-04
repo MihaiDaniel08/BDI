@@ -26,7 +26,7 @@
                             <asp:Label ID="Label1" runat="server" Text='<%# Eval("idReview") %>'></asp:Label>
                         </EditItemTemplate>
                         <FooterTemplate>
-                            <asp:Button ID="Button1" runat="server" Text="Add" />
+                            <asp:Button ID="Button1" runat="server" Text="Add" CommandName="Add" />
                         </FooterTemplate>
                         <ItemTemplate>
                             <asp:Label ID="Label1" runat="server" Text='<%# Bind("idReview") %>'></asp:Label>
@@ -37,7 +37,7 @@
                             <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("idMovie") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <FooterTemplate>
-                            <asp:DropDownList ID="DropDownList2" runat="server" DataSourceID="SqlDatasourceMovies" DataTextField="title" DataValueField="idMovie">
+                            <asp:DropDownList ID="ddlMovies" runat="server" DataSourceID="SqlDatasourceMovies" DataTextField="title" DataValueField="idMovie">
                             </asp:DropDownList>
                         </FooterTemplate>
                         <ItemTemplate>
@@ -49,7 +49,7 @@
                             <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("author") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <FooterTemplate>
-                            <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="tbAuthor" runat="server"></asp:TextBox>
                         </FooterTemplate>
                         <ItemTemplate>
                             <asp:Label ID="Label3" runat="server" Text='<%# Bind("author") %>'></asp:Label>
@@ -60,7 +60,7 @@
                             <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("evaluation") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <FooterTemplate>
-                            <asp:TextBox ID="TextBox5" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="tbReview" runat="server"></asp:TextBox>
                         </FooterTemplate>
                         <ItemTemplate>
                             <asp:Label ID="Label4" runat="server" Text='<%# Bind("evaluation") %>'></asp:Label>
@@ -78,7 +78,7 @@
                 <SortedDescendingCellStyle BackColor="#E9EBEF" />
                 <SortedDescendingHeaderStyle BackColor="#4870BE" />
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlDatasourceMovies" runat="server" ConnectionString="<%$ ConnectionStrings:MoviesConnectionString %>" ProviderName="<%$ ConnectionStrings:MoviesConnectionString.ProviderName %>" SelectCommand="SELECT [idMovie], [title] FROM [Movie]" OnSelecting="SqlDatasourceMovies_Selecting"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDatasourceMovies" runat="server" ConnectionString="<%$ ConnectionStrings:MoviesConnectionString %>" ProviderName="<%$ ConnectionStrings:MoviesConnectionString.ProviderName %>" SelectCommand="SELECT [idMovie], [title] FROM [Movie]"></asp:SqlDataSource>
             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
             <asp:SqlDataSource ID="ReviewsSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:MoviesConnectionString %>" DeleteCommand="DELETE FROM [Review] WHERE [idReview] = @idReview" InsertCommand="INSERT INTO [Review] ([idMovie], [author], [evaluation]) VALUES (@idMovie, @author, @evaluation)" OnInserting="ReviewsSqlDataSource_Inserting" SelectCommand="SELECT * FROM [Review] WHERE ([idMovie] = @idMovie)" UpdateCommand="UPDATE [Review] SET [idMovie] = @idMovie, [author] = @author, [evaluation] = @evaluation WHERE [idReview] = @idReview">
                 <DeleteParameters>
